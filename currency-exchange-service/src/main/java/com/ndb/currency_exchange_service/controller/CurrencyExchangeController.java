@@ -24,7 +24,7 @@ public class CurrencyExchangeController {
     @GetMapping("/from/{fromCurrency}/to/{toCurrency}")
     public ExchangeValue retriveExchangeValue
             (@PathVariable String fromCurrency, @PathVariable String toCurrency){
-//ExchangeValue exchangeValue = new  ExchangeValue(1000L,fromCurrency,toCurrency, BigDecimal.valueOf(65));
+        //ExchangeValue exchangeValue = new  ExchangeValue(1000L,fromCurrency,toCurrency, BigDecimal.valueOf(65));
        ExchangeValue exchangeValue = exchangeValueService.getExchangeValue(fromCurrency,toCurrency);
        if(exchangeValue==null){
            throw  new RuntimeException("Exchange value not found for " + fromCurrency + " to " + toCurrency);
