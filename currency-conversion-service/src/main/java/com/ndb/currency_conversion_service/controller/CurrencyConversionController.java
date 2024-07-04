@@ -1,6 +1,8 @@
 package com.ndb.currency_conversion_service.controller;
 
 import com.ndb.currency_conversion_service.dao.CurrencyConversion;
+import com.ndb.currency_conversion_service.proxy.CurrencyExchangeServiceProxy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,27 @@ import java.util.Map;
 @RequestMapping("/currency-converter")
 public class CurrencyConversionController {
 
+    @Autowired
+    private CurrencyExchangeServiceProxy currencyExchangeServiceProxy;
+
+
+    @GetMapping("/feign/from/{fromCurrency}/to/{toCurrency}/quantity/{currencyQuantity}")
+    public CurrencyConversion convertCurrencyFeign(@PathVariable String fromCurrency, @PathVariable String toCurrency,
+                                              @PathVariable BigDecimal currencyQuantity){
+
+
+        CurrencyConversion response = currencyExchangeServiceProxy.retriveExchangeValue(fromCurrency,toCurrency);
+
+        return new CurrencyConversion(
+                response.getId(),
+                fromCurrency,
+                toCurrency,
+                response.getConversionMultiple(),
+                currencyQuantity,
+                currencyQuantity.multiply(response.getConversionMultiple()),
+                response.getPort()
+        );
+    }
 
 
     @GetMapping("/from/{fromCurrency}/to/{toCurrency}/quantity/{currencyQuantity}")
