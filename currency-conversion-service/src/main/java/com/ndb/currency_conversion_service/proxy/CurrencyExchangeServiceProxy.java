@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 //@RibbonClient(name = "currency-exchange-service")---> now Ribbon not used
 
 @FeignClient(name = "currency-exchange-service",url = "localhost:8000")
-
 public interface CurrencyExchangeServiceProxy {
     @GetMapping("/currency-exchange/from/{fromCurrency}/to/{toCurrency}")
     public CurrencyConversion retriveExchangeValue
